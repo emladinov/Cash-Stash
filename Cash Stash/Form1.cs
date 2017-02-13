@@ -27,9 +27,10 @@ namespace Cash_Stash
             InitializeComponent();
         }
 
-        public void credentials()
+        public string getuser(string username)
         {
-
+            string user = username;
+            return user;
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -54,6 +55,57 @@ namespace Cash_Stash
                writer.WriteEndDocument();
                writer.Close();
                */
+            login();
+        }
+
+        public void button2_Click(object sender, EventArgs e)
+        {
+            //create account
+            string[] credentials = new string[3];
+            credentials[0] = textBox1.Text;
+            credentials[1] = textBox2.Text;
+            using (var reader = new StreamReader("C:/Users/Evan/Documents/credentials.txt"))
+            {
+                if (reader.ReadLine() == null)
+                    credentials[2] = 1.ToString();
+                else
+                    credentials[2] = 0.ToString();
+            }
+
+            using (var file = new StreamReader("C:/Users/Evan/Documents/credentials.txt")) {
+                while ((line = file.ReadLine()) != null)
+                {
+                    credentialsline = line.Split(';');
+                    //MessageBox.Show(credentialsline[2]);
+                    if (textBox1.Text == credentialsline[0])
+                    {
+                        MessageBox.Show("This usernmae is already in use. Choose another.");
+                        return;
+                    }
+
+
+                }
+            }
+            StreamWriter sw = File.AppendText("C:/Users/Evan/Documents/credentials.txt");
+            
+            sw.Write(credentials[0]);
+            sw.Write(";");
+            sw.Write(credentials[1]);
+            sw.Write(";");
+            sw.Write(credentials[2]);
+            sw.WriteLine(";");
+            
+            sw.Close();
+            //MessageBox.Show("2");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            System.Environment.Exit(1);
+        }
+
+        public void login()
+        {
             StreamReader file = new StreamReader("C:/Users/Evan/Documents/credentials.txt");
             while ((line = file.ReadLine()) != null)
             {
@@ -62,30 +114,31 @@ namespace Cash_Stash
                 if (textBox1.Text == credentialsline[0])
                     if (textBox2.Text == credentialsline[1])
                         flag = true;
-                        goto Foo;
-                
+                goto Foo;
+
             }
             //MessageBox.Show("1");
             Foo:
-            if (flag)
-                MessageBox.Show("good");
-            flag = false;
             file.Close();
-        }
+            if (flag)
+            {
+                flag = false;
+                //MessageBox.Show("good");
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //create account
-            string[] credentials = new string[3];
-            credentials[0] = textBox1.Text;
-            credentials[1] = textBox2.Text;
-            StreamWriter sw = File.AppendText("C:/Users/Evan/Documents/credentials.txt");
-            sw.Write(credentials[0]);
-            sw.Write(";");
-            sw.Write(credentials[1]);
-            sw.WriteLine(";");
-            sw.Close();
-            MessageBox.Show("2");
+                Form2 form2 = new Form2();
+                this.Hide();
+                form2.textBox1.Text = credentialsline[0];
+                form2.Show();
+                
+                return;
+            }
+            else
+                MessageBox.Show("Invalid credentials. Try again.");
+
+            return;
+            
+
+            
         }
     }
 }
