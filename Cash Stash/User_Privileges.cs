@@ -22,7 +22,7 @@ namespace Cash_Stash
             while ((line = file.ReadLine()) != null)
             {
                 credentialsline = line.Split(';');
-                //put text in list view
+                
                 textBox1.AppendText(credentialsline[0] + "\n");
 
 
