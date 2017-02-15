@@ -67,6 +67,7 @@ namespace Cash_Stash
                 logwriter.WriteLine();
             }
             Form2 form2 = new Form2();
+            form2.label2.Text = label2.Text;
             this.Hide();
             form2.Show();
         }

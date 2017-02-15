@@ -23,6 +23,7 @@ namespace Cash_Stash
         private void button1_Click(object sender, EventArgs e)
         {
             Form2 form2 = new Form2();
+            form2.label2.Text = label2.Text;
             this.Hide();
             form2.Show();
         }

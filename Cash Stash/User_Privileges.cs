@@ -50,7 +50,7 @@ namespace Cash_Stash
                 {
                     credentialsline = line.Split(';');
                     
-                    //put text in list view
+                    
                     if(textBox2.Text == credentialsline[0])
                     {
                         correctline = line;
@@ -120,8 +120,10 @@ namespace Cash_Stash
         private void button3_Click(object sender, EventArgs e)
         {
             Form2 form2 = new Form2();
+            form2.label2.Text = label2.Text;
             this.Hide();
             form2.Show();
+            
         }
 
         private void promoteaccess(string line)

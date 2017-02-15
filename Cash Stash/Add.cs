@@ -18,16 +18,14 @@ namespace Cash_Stash
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private double inputcheck()
         {
-            DateTime now = DateTime.Now;
-            double addition;
-            double total = 0;
-            bool flag = false;
+            //checks to make sure the input is a number.
+            double input = 0.0;
             Foo:
             try
             {
-                addition = Convert.ToDouble(textBox1.Text);
+                input = Convert.ToDouble(textBox1.Text);
             }
 
             catch
@@ -36,6 +34,13 @@ namespace Cash_Stash
                 goto Foo;
             }
 
+            return (input);
+        }
+
+        private double getcurrenttotal(double total, double addition)
+        {
+            bool flag = false;
+            //reads the current total from the file 'amount.txt' and puts the value in 'total'
             StreamReader file = new StreamReader("C:/Users/Evan/Documents/amount.txt");
             while (flag == false)
             {
@@ -51,6 +56,20 @@ namespace Cash_Stash
             }
             total = addition + total;
             file.Close();
+
+            return total;
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            DateTime now = DateTime.Now;
+            double total = 0;
+            double addition = 0;
+            
+
+
+            addition = inputcheck();
+            total = getcurrenttotal(total, addition);
+            
             using (var sw = new StreamWriter("C:/Users/Evan/Documents/amount.txt"))
             {
                 sw.WriteLine(total.ToString());
@@ -67,6 +86,7 @@ namespace Cash_Stash
                 logwriter.WriteLine();
             }
             Form2 form2 = new Form2();
+            form2.label2.Text = label2.Text;
             this.Hide();
             form2.Show();
             

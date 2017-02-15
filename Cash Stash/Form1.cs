@@ -17,7 +17,7 @@ namespace Cash_Stash
     {
         bool flag = false;
         string line;
-        string[] credentialsline = new string[3];
+        string[] credentialsline = new string[4];
         public Form1()
         {
             InitializeComponent();
@@ -130,16 +130,15 @@ namespace Cash_Stash
                         }
 
             }
-            //MessageBox.Show("1");
             Foo:
             file.Close();
-            //if a match was found open form2
             if (flag)
             {
                 flag = false;
+
                 Form2 form2 = new Form2();
-                this.Hide();
                 form2.label2.Text = credentialsline[0];
+                this.Hide();
                 form2.Show();
                 
                 return;
