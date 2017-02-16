@@ -33,43 +33,16 @@ namespace Cash_Stash
            
                 //Brings name of user into this form.
                 string labeltext;
-                //string user = label2.Text;
                 string usertext = label2.Text;
                 Form1 form1 = new Form1();
 
-                //MessageBox.Show("test");
-                /*
-                using (var file = new StreamReader("C:/Users/Evan/Documents/credentials.txt"))
-                {
-                    string[] credentialsline = new string[3];
-                    string line;
-
-                    while ((line = file.ReadLine()) != null)
-                    {
-                        credentialsline = line.Split(';');
-
-
-                        if (user == credentialsline[0])
-                        {
-                            usertext = credentialsline[0];
-                        }
-
-
-                    }
-                }
-                */
+                
 
                 using (var file = new StreamReader("C:/Users/Evan/Documents/amount.txt"))
                 {
-                    //StreamReader file = new StreamReader("C:/Users/Evan/Documents/amount.txt");
                     labeltext = file.ReadLine();
-
-
                 }
                 label1.Text = "Hello " + label2.Text + ". The current balance is $" + labeltext;
-                //label1.Text = "The current balance is $" + labeltext;
-                
-            
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -79,7 +52,7 @@ namespace Cash_Stash
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //Deposit
+            //Go to deposit form.
             if (credentialscheck(label2.Text))
             {
                 Add add = new Add();
@@ -93,7 +66,7 @@ namespace Cash_Stash
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //Withdraw
+            //Go to withdraw form.
             if (credentialscheck(label2.Text))
             {
                 Subtract subtract = new Subtract();
@@ -107,7 +80,7 @@ namespace Cash_Stash
 
         private void button3_Click(object sender, EventArgs e)
         {
-            //Check Logs
+            //Go to logs form.
             if (credentialscheck(label2.Text))
             {
                 Logs logs = new Logs();
@@ -143,6 +116,7 @@ namespace Cash_Stash
 
         private bool credentialscheck(string username)
         {
+            //check is username of user has the correct privilege '1'.
             using (var file = new StreamReader("C:/Users/Evan/Documents/credentials.txt"))
             {
                 string[] credentialsline = new string[4];
@@ -155,6 +129,7 @@ namespace Cash_Stash
                     
                     if (username == credentialsline[0])
                     {
+                        //when username is found, check if the privilege is '1'.
                         if (credentialsline[2] == 1.ToString())
                             return true;
                         else

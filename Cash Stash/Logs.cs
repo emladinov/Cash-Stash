@@ -16,12 +16,14 @@ namespace Cash_Stash
         public Logs()
         {
             InitializeComponent();
+            //Reads the logs.txt file and outputs the content to a 'Read-Only' textbox.
             var logstring = File.ReadAllText("C:/Users/Evan/Documents/logs.txt");
             textBox1.Text = logstring;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //Switch to main page.
             Form2 form2 = new Form2();
             form2.label2.Text = label2.Text;
             this.Hide();

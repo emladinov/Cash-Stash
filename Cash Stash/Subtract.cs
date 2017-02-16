@@ -18,54 +18,87 @@ namespace Cash_Stash
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+        private double inputcheck()
         {
-            DateTime now = DateTime.Now;
-            double subtraction;
-            double total = 0;
-            bool flag = false;
-            Foo:
+            //checks to make sure the input is a number.
+            double input = 0.0;
+
             try
             {
-                subtraction = Convert.ToDouble(textBox1.Text);
+                input = Convert.ToDouble(textBox1.Text);
             }
 
             catch
             {
                 MessageBox.Show("Please enter a number.");
-                goto Foo;
+                input = -1;
             }
 
+            return (input);
+        }
+
+        private double getcurrenttotal(double total, double subtraction)
+        {
+            //Reads the current total from the file 'amount.txt' and puts the value in 'total'
             StreamReader file = new StreamReader("C:/Users/Evan/Documents/amount.txt");
-            while (flag == false)
+
+            try
             {
-                try
-                {
-                    total = Convert.ToDouble(file.ReadLine());
-                    flag = true;
-                }
-                catch
-                {
-                    MessageBox.Show("Please enter a number.");
-                }
+                total = Convert.ToDouble(file.ReadLine());
+
             }
+            catch
+            {
+                MessageBox.Show("Please enter a number.");
+            }
+
             total = total - subtraction;
             file.Close();
-            using (var sw = new StreamWriter("C:/Users/Evan/Documents/amount.txt"))
-            {
-                sw.WriteLine(total.ToString());
-                MessageBox.Show("Your withdraw has been made.");
-            }
+
+            return total;
+        }
+
+        private void writetologs(double total, double subtraction)
+        {
+            DateTime now = DateTime.Now;
+            //Records transaction in logs file.
             using (var logwriter = File.AppendText("C:/Users/Evan/Documents/logs.txt"))
             {
                 logwriter.WriteLine("Log Entry:" + now);
-                logwriter.WriteLine("User user has withdrew " + subtraction.ToString() + ".");
+                logwriter.WriteLine("User " + label2.Text + " has withdrew " + subtraction.ToString() + ".");
                 logwriter.WriteLine("The total is now " + total.ToString() + ".");
                 logwriter.WriteLine("*********************************");
                 logwriter.WriteLine();
                 logwriter.WriteLine();
                 logwriter.WriteLine();
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+            double subtraction;
+            double total = 0;
+
+
+            subtraction = inputcheck();
+            if (subtraction == -1)
+            {
+                return;
+            }
+            total = getcurrenttotal(total, subtraction);
+
+            //Write new total to 'amount.txt'
+            using (var sw = new StreamWriter("C:/Users/Evan/Documents/amount.txt"))
+            {
+                sw.WriteLine(total.ToString());
+                MessageBox.Show("Your withdraw has been made.");
+            }
+
+            writetologs(total, subtraction);
+
+            //Go back to main page.
             Form2 form2 = new Form2();
             form2.label2.Text = label2.Text;
             this.Hide();

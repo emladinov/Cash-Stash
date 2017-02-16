@@ -34,36 +34,30 @@ namespace Cash_Stash
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //User_Privileges privileges = new User_Privileges();
-            string user;
+            string user = textBox2.Text; ;
             string line;
             string correctline = "";
             bool flag = false;
             string[] credentialsline = new string[3];
-            user = textBox2.Text;
 
             using (StreamReader file = new StreamReader("C:/Users/Evan/Documents/credentials.txt"))
             {
-                
-                
+                //Look for line with username in it in credentials.txt.
                 while ((line = file.ReadLine()) != null)
                 {
                     credentialsline = line.Split(';');
-                    
-                    
+                                       
                     if(textBox2.Text == credentialsline[0])
                     {
                         correctline = line;
                         flag = true;
                     }
-
-
                 }
-
             }
             
             if (flag)
             {
+                //If found, perform promoteaccess function.
                 if(correctline == "")
                 {
                     MessageBox.Show("Invalid Input. Try Again.");
@@ -78,35 +72,30 @@ namespace Cash_Stash
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string user;
+            string user = textBox2.Text;
             string line;
             string correctline = "";
             bool flag = false;
             string[] credentialsline = new string[3];
-            user = textBox2.Text;
 
+            //Look for line with username in it in credentials.txt.
             using (StreamReader file = new StreamReader("C:/Users/Evan/Documents/credentials.txt"))
             {
-
-
                 while ((line = file.ReadLine()) != null)
                 {
                     credentialsline = line.Split(';');
 
-                    //put text in list view
                     if (textBox2.Text == credentialsline[0])
                     {
                         correctline = line;
                         flag = true;
                     }
-
-
                 }
-
             }
 
             if (flag)
             {
+                //If a line with matching username is found, limit access.
                 if (correctline == "")
                 {
                     MessageBox.Show("Invalid Input. Try Again.");
@@ -119,6 +108,7 @@ namespace Cash_Stash
 
         private void button3_Click(object sender, EventArgs e)
         {
+            //Go back to main page.
             Form2 form2 = new Form2();
             form2.label2.Text = label2.Text;
             this.Hide();
@@ -128,6 +118,11 @@ namespace Cash_Stash
 
         private void promoteaccess(string line)
         {
+            /*Put each line of the file into a string array where each element is a line.
+             *Compare each line with the line in which the username resides. The username should be provided by the user
+             * in the text box on the form. Once the comparison is identical, change the line out
+             * and make the number equaal to 1. 
+             */
             string[] file = File.ReadAllLines("C:/Users/Evan/Documents/credentials.txt");
             string[] credentialsline = new string[4];
             credentialsline = line.Split(';');
@@ -136,7 +131,6 @@ namespace Cash_Stash
             {
                 if (file[i] == line)
                 {
-                    //file[i].Replace(file[i], credentialsline[0] + ";" + credentialsline[1] + ";" + credentialsline[2] + ";");
                     file[Array.IndexOf(file, line)] = credentialsline[0] + ";" + credentialsline[1] + ";" + credentialsline[2] + ";";
                     File.WriteAllLines("C:/Users/Evan/Documents/credentials.txt", file);
                 }
@@ -147,6 +141,11 @@ namespace Cash_Stash
 
         private void limitaccess(string line)
         {
+            /*Put each line of the file into a string array where each element is a line.
+             *Compare each line with the line in which the username resides. The username should be provided by the user
+             * in the text box on the form. Once the comparison is identical, change the line out
+             * and make the number equaal to 1. 
+             */
             string[] file = File.ReadAllLines("C:/Users/Evan/Documents/credentials.txt");
             string[] credentialsline = new string[4];
             credentialsline = line.Split(';');
@@ -155,7 +154,6 @@ namespace Cash_Stash
             {
                 if (file[i] == line)
                 {
-                    //file[i].Replace(file[i], credentialsline[0] + ";" + credentialsline[1] + ";" + credentialsline[2] + ";");
                     file[Array.IndexOf(file, line)] = credentialsline[0] + ";" + credentialsline[1] + ";" + credentialsline[2] + ";";
                     File.WriteAllLines("C:/Users/Evan/Documents/credentials.txt", file);
                 }

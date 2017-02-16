@@ -28,25 +28,56 @@ namespace Cash_Stash
 
         }
 
-        public string getuser(string username)
+        public void login()
         {
-            string user = username;
-            return user;
+            StreamReader file = new StreamReader("C:/Users/Evan/Documents/credentials.txt");
+            //This while loop searches through each line of the text document for the correct username.
+            //It then checks to see if the password matches.
+            while ((line = file.ReadLine()) != null)
+            {
+                credentialsline = line.Split(';');
+                if (textBox1.Text == credentialsline[0])
+                    if (textBox2.Text == credentialsline[1])
+                    {
+                        //If username and password match.
+                        flag = true;
+                        goto Foo;
+                    }
+
+            }
+            Foo:
+            file.Close();
+            //If match was found.
+            if (flag)
+            {
+                flag = false;
+
+                Form2 form2 = new Form2();
+                form2.label2.Text = credentialsline[0];
+                this.Hide();
+                form2.Show();
+
+                return;
+            }
+            else
+                MessageBox.Show("Invalid credentials. Try again.");
+
+            return;
+
+
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public bool existinguser(string[] credentials)
         {
-            login();
-        }
-
-        public bool existinguser (string[] credentials)
-        {
+            //Checks to see if username is already being used.
+            //If so, the account can not be created.
             using (var file = new StreamReader("C:/Users/Evan/Documents/credentials.txt"))
             {
+                //Check each line and see if any of the usernames match up with user input.
                 while ((line = file.ReadLine()) != null)
                 {
                     credentialsline = line.Split(';');
-                    //MessageBox.Show(credentialsline[2]);
                     if (textBox1.Text == credentialsline[0])
                     {
                         MessageBox.Show("This username is already in use. Choose another.");
@@ -61,6 +92,7 @@ namespace Cash_Stash
 
         public void createuser(string[] credentials)
         {
+            //Creates new user in next empty line of text file.
             StreamWriter sw = File.AppendText("C:/Users/Evan/Documents/credentials.txt");
 
             sw.Write(credentials[0]);
@@ -88,6 +120,12 @@ namespace Cash_Stash
             return credentials[2];
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Login
+            login();
+        }
+
         public void button2_Click(object sender, EventArgs e)
         {
             //create account
@@ -113,43 +151,6 @@ namespace Cash_Stash
             System.Environment.Exit(1);
         }
 
-        public void login()
-        {
-            StreamReader file = new StreamReader("C:/Users/Evan/Documents/credentials.txt");
-            //This while loop searches through each line of the text document for the correct username
-            //It then checks to see if the password matches
-            while ((line = file.ReadLine()) != null)
-            {
-                credentialsline = line.Split(';');
-                //MessageBox.Show(credentialsline[2]);
-                if (textBox1.Text == credentialsline[0])
-                    if (textBox2.Text == credentialsline[1]) { 
-                        //if username and password match
-                        flag = true;
-                        goto Foo;
-                        }
-
-            }
-            Foo:
-            file.Close();
-            if (flag)
-            {
-                flag = false;
-
-                Form2 form2 = new Form2();
-                form2.label2.Text = credentialsline[0];
-                this.Hide();
-                form2.Show();
-                
-                return;
-            }
-            else
-                MessageBox.Show("Invalid credentials. Try again.");
-
-            return;
-            
-
-            
-        }
+        
     }
 }
